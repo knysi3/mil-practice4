@@ -1,0 +1,99 @@
+/* CSSコード */
+.chat-app {
+  margin: auto;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.chat-header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.chat-conversation {
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.chat-conversation ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-conversation li {
+  margin: 10px 0;
+  display: inline;
+}
+
+.chat-message-input {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.chat-username-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.chat-username-input {
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chat-message-textarea {
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chat-message-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+}
+
+@media (min-width: 500px) {
+  .chat-app {
+    width: 500px;
+  }
+
+  .chat-username-label {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+    text-align: right;
+  }
+
+  .chat-username-input {
+    width: calc(100% - 130px);
+  }
+
+  .chat-message-textarea {
+    height: 70px;
+  }
+}
+
+@media (min-width: 800px) {
+  .chat-app {
+    width: 800px;
+  }
+
+  .chat-conversation {
+    height: 400px;
+  }
+
+  .chat-message-textarea {
+    height: 100px;
+  }
+}

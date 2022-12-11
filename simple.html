@@ -1,0 +1,94 @@
+<!-- HTMLコード -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chat App</title>
+  <link rel="stylesheet" href="css/tmpl.css">
+</head>
+<body>
+    <div class="chat-app">
+      <div class="chat-header">
+        <h1>チャット</h1>
+      </div>
+      <div class="chat-conversation">
+        <ul>
+        </ul>
+      </div>
+      <div class="chat-message-input">
+        <form>
+          <label for="username" class="chat-username-label">Username:</label>
+          <input type="text" id="uname" placeholder="名前を入力" class="chat-username-input">
+        </form>
+        <textarea id="text" placeholder="メッセージを入力してね" class="chat-message-textarea"></textarea>
+        <button class="chat-message-button">Send</button>
+      </div>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+        from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-database.js";
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "XXX",
+      authDomain: "XXX",
+      projectId: "XXX",
+      storageBucket: "XXX",
+      messagingSenderId: "XXX",
+      appId: "XXX"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dbRef = ref(db, "kon111");
+
+
+    const chatApp = $('.chat-app');
+    const conversation = $('.chat-conversation');
+    const messageInput = $('.chat-message-input textarea');
+    const messageButton = $('.chat-message-input button');
+    const usernameInput = $('#username');
+    
+    // 削除ボタンがクリックされたときの処理
+    chatApp.on('click', '.chat-message-delete-button', function() {
+    //   // クリックされた削除ボタンの親要素である<li>要素を削除する
+    //   $(event.target).closest('li').remove();
+	    // chat/www/内の text: 'AAA' のユニークキーを指定
+        var idValue = $(this).prop('id');
+        console.log(idValue); // 取得したidの値が出力される
+        var all_key = "XXX/" + idValue;
+        console.log(all_key);
+	    remove(ref(db, all_key));
+        window.location.reload();
+    });
+    
+    // 送信ボタンがクリックされたときの処理
+    messageButton.on('click', () => {
+        const msg = {
+            uname: $("#uname").val(),
+            text: $("#text").val()
+        }
+        const newPostRef = push(dbRef);
+        set(newPostRef, msg);
+    });
+
+    onChildAdded(dbRef, function (data){
+        const msg = data.val();
+        const key = data.key;
+        const messageEl = $('<li>');
+        console.log(msg);
+        messageEl.html(`<p><strong>${msg.uname}:</strong> ${msg.text}</p>
+        <button class="chat-message-delete-button" id="${key}">Delete</button>`);
+        conversation.append(messageEl);
+    })
+
+</script>
+</body>
+</html>
